@@ -1,0 +1,13 @@
+<h1>Hola</h1>
+<div id="container"></div>
+<script>
+    window.onload = function() {
+        fetch('http://127.0.0.1:12000/get/token')
+        .then(response => response.json())
+        .then(token => {
+            fetch(`http://127.0.0.1:12000/get_clients/${token}`)
+            .then(res => res.json())
+            .then(data => document.getElementById('container').innerHTML = JSON.stringify(data['data'][0]))
+        });
+    }
+</script>
