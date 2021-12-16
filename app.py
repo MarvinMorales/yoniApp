@@ -11,9 +11,10 @@ CORS(app)
 
 app.config['__port'] = 12000
 app.config['__host'] = '127.0.0.1'
+app.config['__secret_JWT'] = '__|api_Hass_Marv|__'
 
 #___ Connection to DataBase ___#
-def connectDataBase() -> object:
+def connectDataBase() -> mysql.connector:
     conn = mysql.connector.connect(
         host="7aamin.mysql.pythonanywhere-services.com",
         database="7aamin$yonidb",
@@ -23,12 +24,12 @@ def connectDataBase() -> object:
 
 #_____  External methods and functions of server  _____#
 def Encode_jwt(__payload:str) -> str:
-  token_bytes = jwt.encode(__payload, getenv('SECRET'), algorithm = 'HS512')
+  token_bytes = jwt.encode(__payload, key=app.config['__secret_JWT'], algorithm='HS512')
   return token_bytes
 
 def Validate_token(__token:str) -> str:
-  try: 
-    __result = jwt.decode(__token, getenv('SECRET'), algorithms = ['HS256', 'HS512'])
+  try:
+    jwt.decode(__token, key=app.config['__secret_JWT'], algorithms=['HS256', 'HS512'])
     return "Valid"
   except jwt.exceptions.DecodeError:
     return "__TOKEN NOT VALID__"
@@ -60,16 +61,18 @@ def token_generator() -> dict:
     return {"success": True, "token": token}
 
 #___ Route to get comments from server ___#
-@app.route("/get_comments/<int:_from>/<int:_to>", methods=["GET"])
+@app.route("/get_comments/<token>", methods=["GET"])
 @cross_origin()
-def get_comments(_from:int, _to:int) -> dict:
-    if conn := connectDataBase():
-        cursor = conn.cursor()
-        cursor.execute("Select (*) from `commentstable`")
-        response = cursor.fetchall()[_from - 1:_to - 1]
-        cursor.close()
-        conn.close()
-        return {"success": True, "data": response}, 200
+def get_comments(token:str) -> dict:
+    if validation := Validate_token(token) == "Valid":
+        if conn := connectDataBase():
+            cursor = conn.cursor()
+            cursor.execute("Select * from `commentstable`")
+            result = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return {"success": True, "data": [list(x) for x in result]}, 200
+    else: return {"success": False, "reason": validation}, 401
 
 @app.route("/get_clients/<string:token>", methods=["GET"])
 @cross_origin()
@@ -82,7 +85,7 @@ def get_clients(token:str) -> dict:
             cursor.close()
             conn.close()
             return {"success": True, "data": [list(x) for x in result]}, 200
-    else: return {"success": False, "reason": validation}
+    else: return {"success": False, "reason": validation}, 401
 
 #___ Route to set clients info to DB ___#
 @app.route("/save/client_info", methods=["POST"])
@@ -104,7 +107,7 @@ def save_clients_info() -> dict:
                 cursor.close()
                 conn.close()
                 return {"success": True, "data": "Data saved in DB"}, 200
-    else: return {"success": False, "reason": validation}
+    else: return {"success": False, "reason": validation}, 401
 
 
 #___ Route to set comments to DB ___#
@@ -126,7 +129,7 @@ def save_clients_comments() -> dict:
                 cursor.close()
                 conn.close()
                 return {"success": True, "data": "Comment saved in DB"}, 200
-    else: return {"success": False, "reason": validation}
+    else: return {"success": False, "reason": validation}, 401
 
 
 if __name__ == "__main__":
