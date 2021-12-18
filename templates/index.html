@@ -1,14 +1,229 @@
-<h1>Hola</h1>
-<div id="container"></div>
-<script>
-    window.onload = function() {
-        fetch('http://127.0.0.1:12000/get/token')
-        .then(response => response.json())
-        .then(token => {
-            console.log(token['token'])
-            fetch(`http://127.0.0.1:12000/get_clients/${token['token']}`)
-            .then(res => res.json())
-            .then(data => document.getElementById('container').innerHTML = JSON.stringify(data['data'][0]))
-        });
-    }
-</script>
+<!DOCTYPE html>
+
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Theme Starz">
+    <link href="assets/fonts/font-awesome-4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/flexslider.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <title>We Buy Houses LLC</title>
+    <script src="https://kit.fontawesome.com/b677be2fba.js" crossorigin="anonymous"></script>
+</head>
+
+<body data-spy="scroll" data-target=".navigation" data-offset="90">
+    <!-- Wrapper -->
+    <section id="home"></section>
+    <div class="wrapper">
+        <div class="navigation ">
+            <div class="container">
+                <header class="navbar" id="top" role="banner">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                        <div class="navbar-brand nav" id="brand">
+                            <a href="index.html"><img src="assets/img/LOGO-WBH.png" style="height: 90px;" alt="brand"></a>
+                        </div>
+                    </div>
+                </header>
+                <!-- /.navbar -->
+            </div>
+            <!-- /.container -->
+        </div>
+        <!-- /.navigation -->
+
+        <section id="slider">
+            <div class="flexslider loading">
+                <div id="loading-icon"><i class="fa fa-cog fa-spin"></i></div>
+                <ul class="slides">
+                    <li class="slide slide-has-parallax"><img src="assets/img/slide-01.jpg" class="parallax-bg" alt=""></li>
+                    <li class="slide slide-has-parallax"><img src="assets/img/slide-02.jpg" class="parallax-bg" alt=""></li>
+                    <li class="slide slide-has-parallax"><img src="assets/img/slide-03.jpg" class="parallax-bg" alt=""></li>
+                </ul>
+                <!-- /.slides -->
+            </div>
+            <!-- /.flexslider -->
+            <div class="slider-banner">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-8">
+                            <div class="title">
+                                <h2>Give us your personal data!</h2>
+                                <figure class="subtitle">We shall contact you as soon as possible</figure>
+                                <i class="fa fa-arrow-circle-o-right"></i>
+                            </div>
+                            <!-- /.title -->
+                        </div>
+                        <!-- /.col-md-8 -->
+                        <div class="col-md-4 col-sm-4">
+                            <div class="form-slider-wrapper form-has-parallax">
+                                <header>
+                                    <h3>We buy houses!</h3>
+                                    <h1>Cash offer</h1>
+                                </header>
+                                <hr>
+                                <form role="form" id="form-slider">
+                                    <div class="form-group">
+                                        <label for="name">Your Name<em>*</em></label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Your Lastname<em>*</em></label>
+                                        <input type="text" class="form-control" id="lastname" name="lastname" required>
+                                    </div>
+                                    <!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="email">Your Email<em>*</em></label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="phone">Your Phone<em>*</em></label>
+                                        <input type="text" class="form-control" id="phone" name="phone" required>
+                                    </div>
+                                    <!-- /.form-group -->
+                                    <div class="form-group">
+                                        <div id="form-slider-status"></div>
+                                        <button id="btn" type="button" id="form-slider-submit" class="btn btn-default">Get Notified!</button>
+                                    </div>
+                                    <!-- /.form-group -->
+                                </form>
+                                <!-- /#form-slider -->
+                                <figure>*Required Fields</figure>
+                            </div>
+                            <!-- /.form-slider-wrapper -->
+                        </div>
+                        <!-- /.col-md-4 -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container -->
+            </div>
+            <!-- /.slider-banner -->
+        </section>
+        <!-- /#slider -->
+        <section id="features" class="block">
+            <div class="container">
+                <header>
+                    <h3>Why to choose us?</h3>
+                </header>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4">
+                        <ul class="features-list">
+                            <li>You won't waste time</li>
+                            <li>You won't need to commit an agent</li>
+                            <li>You won't need to clean your property</li>
+                            <li>Don't stress over documentation</li>
+                            <li>Sell fast in "As is" condition</li>
+                        </ul>
+                        <!-- /.features-list -->
+                    </div>
+                    <!-- /.col-md-8 -->
+                    <div class="col-md-8 col-sm-8">
+                        <div class="image-carousel">
+                            
+                            <div class="image-carousel-slide">
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5">
+                                        <a href="assets/img/box-image-02.jpg" class="image-popup">
+                                        <img src="assets/img/features-slide-01.jpg" alt="">
+                                    </a>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h4>Nullam in nisl vitae elit sollicitudin bibendum in quis magna. Integer commodo velit nec orci</h4>
+                                        <p>Nullam in nisl vitae elit sollicitudin bibendum in quis magna. Integer commodo velit nec orci aliquam congue. Pellentesque euismod ac erat et dapibus.</p>
+                                        <a href="assets/img/box-image-02.jpg" class="btn btn-framed image-popup">Zoom Picture <span class="fa fa-search-plus"></span></a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+
+                            <div class="image-carousel-slide" style="margin-top: 20px;">
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5">
+                                        <a href="assets/img/box-image-02.jpg" class="image-popup">
+                                        <img src="assets/img/features-slide-02.jpg" alt="">
+                                    </a>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7">
+                                        <h4>Nullam in nisl vitae elit sollicitudin bibendum in quis magna. Integer commodo velit nec orci</h4>
+                                        <p>Nullam in nisl vitae elit sollicitudin bibendum in quis magna. Integer commodo velit nec orci aliquam congue. Pellentesque euismod ac erat et dapibus.</p>
+                                        <a href="assets/img/box-image-02.jpg" class="btn btn-framed image-popup">Zoom Picture <span class="fa fa-search-plus"></span></a>
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.image-carousel-slide -->
+                            <div class="image-carousel-slide" style="margin-top: 20px;">
+                                <a href="assets/img/box-image-02.jpg" class="image-popup">
+                                <img src="assets/img/features-slide-03.jpg" alt="">
+                            </a>
+                            </div>
+                        </div>
+                        <!-- /.image-carousel -->
+                    </div>
+                    <!-- /.col-md-8 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container -->
+        </section>
+        <!-- /#features .block -->
+        <footer id="footer">
+            <div class="container">
+                &copy;Copyright 2021 - We Buy Houses LLC - All rights reserved
+            </div>
+        </footer>
+    </div>
+    <!-- end Wrapper -->
+    <script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="assets/js/retina-1.1.0.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="assets/js/scrollReveal.min.js"></script>
+    <script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+    <script type="text/javascript" src="assets/js/custom.js"></script>
+
+    <script>
+        window.onload = function() {
+            document.getElementById('btn').addEventListener('click', () => {
+                (async function() {
+                    let response = await fetch('http://7aamin.pythonanywhere.com/save/client_info', {
+                        method: "POST",
+                        body: JSON.stringify({
+                            token: window.localStorage.getItem('yoniToken'),
+                            name: document.getElementById('name').value,
+                            lastname: document.getElementById('lastname').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value
+                        }), headers: {"Content-type": "application/json; charset=UTF-8"}
+                    }); let final = await response.json();
+                    console.log(final)
+                })();
+            });
+
+            fetch('http://7aamin.pythonanywhere.com/get/token')
+            .then(response => response.json())
+            .then(datas => {
+                window.localStorage.setItem('yoniToken', datas.token);
+                fetch(`http://7aamin.pythonanywhere.com/get_clients/${datas.token}`)
+                .then(res => res.json()).then(resp => console.log(resp));
+            });
+        }
+    </script>
+
+</body>

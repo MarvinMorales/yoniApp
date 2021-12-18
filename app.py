@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import mysql.connector
 from os import getenv
 from dotenv import load_dotenv
+import json
 import jwt
 
 app = Flask(__name__)
@@ -91,45 +92,38 @@ def get_clients(token:str) -> dict:
 @app.route("/save/client_info", methods=["POST"])
 @cross_origin()
 def save_clients_info() -> dict:
-    if validation := Validate_token(request.json['token']) == "Valid":
-        if request.method == "POST":
-            name = request.json['name']
-            lastname = request.json['lastname']
-            email = request.json['email']
-            phone = request.json['phone']
+    if request.method == "POST":
+        requestt = json.loads(request.data)
+        if validation := Validate_token(requestt['token']) == "Valid":
             if conn := connectDataBase():
                 cursor = conn.cursor()
-                sql = """Insert into `clientstable`
+                cursor.execute(f"""Insert into `clientstable`
                 (`name`, `lastname`, `email`, `phone`) values
-                ('%s', '%s', '%s', '%s')"""
-                cursor.execute(sql, (name, lastname, email, phone))
+                ('{requestt['name']}', '{requestt['lastname']}', '{requestt['email']}', '{requestt['phone']}')""")
                 conn.commit()
                 cursor.close()
                 conn.close()
                 return {"success": True, "data": "Data saved in DB"}, 200
-    else: return {"success": False, "reason": validation}, 401
+        else: return {"success": False, "reason": "__Forbidden__", "validaion": validation}, 401
 
 
 #___ Route to set comments to DB ___#
 @app.route("/save/client_comments", methods=["POST"])
 @cross_origin()
 def save_clients_comments() -> dict:
-    if validation := Validate_token(request.json['token']) == "Valid":
-        if request.method == "POST":
-            name = request.json['name']
-            lastname = request.json['lastname']
-            comment = request.json['comment']
+    if request.method == "POST":
+        requestt = json.loads(request.data)
+        if validation := Validate_token(requestt['token']) == "Valid":
             if conn := connectDataBase():
                 cursor = conn.cursor()
-                sql = """Insert into `commentstable`
+                cursor.execute(f"""Insert into `commentstable`
                 (`name`, `lastname`, `comment`) values
-                ('%s', '%s', '%s')"""
-                cursor.execute(sql, (name, lastname, comment))
+                ('{requestt['name']}', '{requestt['lastname']}', '{requestt['comment']}')""")
                 conn.commit()
                 cursor.close()
                 conn.close()
                 return {"success": True, "data": "Comment saved in DB"}, 200
-    else: return {"success": False, "reason": validation}, 401
+        else: return {"success": False, "reason": "__Forbidden__", "validaion": validation}, 401
 
 
 if __name__ == "__main__":
