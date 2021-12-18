@@ -3,6 +3,7 @@ from flask_cors import CORS, cross_origin
 from datetime import datetime, timedelta
 import mysql.connector
 from os import getenv
+from SENDER.emailSender import EmailSender
 from dotenv import load_dotenv
 import json
 import jwt
@@ -124,6 +125,20 @@ def save_clients_comments() -> dict:
                 conn.close()
                 return {"success": True, "data": "Comment saved in DB"}, 200
         else: return {"success": False, "reason": "__Forbidden__", "validaion": validation}, 401
+
+
+#___ Route to set comments to DB ___#
+@app.route("/saravana/emailSender/<_token>/<_from>/<_to>/<_time>", methods=["GET"])
+@cross_origin()
+def saravana_email_sender(_token:str, _from:str, _to:str, _time:str) -> dict:  
+    if request.method == "GET":
+        if validation := Validate_token(_token) == "Valid": 
+            sender = EmailSender(_from, _to, _time)
+            lista = list(sender.sendEmail("data40000.csv").keys())
+            if lista[0] == "Error": return {"error": "There was an error!"}, 200
+            elif lista[0] == "success": return {"success": "email_sent"}, 200
+        else: return {"success": False, "reason": "__Forbidden__", "validaion": validation}, 401
+
 
 
 if __name__ == "__main__":
