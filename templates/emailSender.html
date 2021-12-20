@@ -1,0 +1,28 @@
+<div style="display: flex; flex-direction: column;">
+    <input type="text" id="from" style="width: 150px; height: 30px; padding: 0 15px; margin-bottom: 5px;" name="from"/>
+    <input type="text" id="to" style="width: 150px; height: 30px; padding: 0 15px; margin-bottom: 5px;" name="to"/>
+    <input type="text" id="time" style="width: 150px; height: 30px; padding: 0 15px; margin-bottom: 5px;" name="time"/>
+    <input type="button" id="button" value="Start" style="width: 150px; height: 30px; padding: 0 15px; margin-bottom: 5px;" name="from"/>
+</div>
+<script>
+    window.onload = function() {
+        fetch('http://127.0.0.1:12000/get/token')
+        .then(response => response.json())
+        .then(datas => {
+            window.localStorage.setItem('yoniToken', datas.token);
+            console.log(datas.token)
+        });
+
+        document.getElementById('button').addEventListener('click', () => {
+            let token = window.localStorage.getItem('yoniToken');
+            let from = document.getElementById('from').value;
+            let to = document.getElementById('to').value;
+            let time = document.getElementById('time').value;
+            (async function() {
+                let petition = await fetch(`http://127.0.0.1:12000/saravana/emailSender/${token}/${from}/${to}/${time}`);
+                let data = await petition.json();
+                console.log(data)
+            })();
+        })
+    }
+</script>
