@@ -6,7 +6,7 @@
 </div>
 <script>
     window.onload = function() {
-        fetch('http://127.0.0.1:12000/get/token')
+        fetch('http://127.0.0.1:12000/saravana/get/token')
         .then(response => response.json())
         .then(datas => {
             window.localStorage.setItem('yoniToken', datas.token);
@@ -19,7 +19,7 @@
             let to = document.getElementById('to').value;
             let time = document.getElementById('time').value;
             (async function() {
-                let petition = await fetch(`http://127.0.0.1:12000/saravana/emailSender/${token}/${from}/${to}/${time}`);
+                let petition = await fetch(`http://127.0.0.1:12000/saravana/saravana/emailSender/${token}/${from}/${to}/${time}`);
                 let data = await petition.json();
                 console.log(data)
             })();

@@ -7,8 +7,9 @@ from email.mime.multipart import MIMEMultipart
 
 absolutepath = os.path.abspath(__file__)
 fileDirectory = os.path.dirname(absolutepath)
-#parentDirectory = os.path.dirname(fileDirectory)
-newPath = os.path.join(fileDirectory, 'files')
+parentDirectory = os.path.dirname(fileDirectory)
+parentDirectory2 = os.path.dirname(parentDirectory)
+newPath = os.path.join(parentDirectory2, 'files')
 
 class EmailSender(object):
     def __init__(self, _initLine, _finishLine, _sleepTime):
