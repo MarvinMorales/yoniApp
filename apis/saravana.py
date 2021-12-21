@@ -3,7 +3,8 @@ from flask_cors import CORS, cross_origin
 from datetime import datetime, timedelta
 import mysql.connector
 from os import getenv
-from apis.modules.emailSender import EmailSender
+from modules.emailSender import EmailSender
+from modules.tokenization import Encode_jwt, Validate_token
 from dotenv import load_dotenv
 import asyncio
 import jwt
@@ -19,22 +20,6 @@ def connectDataBase() -> mysql.connector:
         user="7aamin",
         passwd="Hassi2016!")
     return conn
-
-#_____  External methods and functions of server  _____#
-def Encode_jwt(__payload:str) -> str:
-  token_bytes = jwt.encode(__payload, key='__|api_Hass_Marv|__', algorithm='HS512')
-  return token_bytes
-
-def Validate_token(__token:str) -> str:
-  try:
-    jwt.decode(__token, key='__|api_Hass_Marv|__', algorithms=['HS256', 'HS512'])
-    return {"response": "Valid"}
-  except jwt.exceptions.DecodeError as err:
-    return {"response": "__TOKEN NOT VALID__", "err": str(err)}
-  except jwt.ExpiredSignatureError as err:
-    return {"response": "__TOKEN EXPIRED__", "err": str(err)}
-  except jwt.InvalidTokenError as err:
-    return {"response": "__TOKEN NOT VALID__", "err": str(err)}
 
 @saravana.before_app_first_request
 def middleware() -> load_dotenv:
